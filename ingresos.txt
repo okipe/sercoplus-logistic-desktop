@@ -1,0 +1,11 @@
+1,Monitor FullHD 24",4,2024-05-07,Dhasa Import
+2,Laptop Gamer Supra 9000,8,2024-05-07,ZXY Import
+3,Monitor FullHD 24",19,2024-05-07,ZXY Import
+4,Monitor FullHD 24",4,2024-05-12,Dhasa Import
+5,Monitor FullHD 24",7,2024-05-12,Patito Import SRL
+6,Teclado Mecanico Ryzor R233,50,2024-05-19,Patito Import SRL
+7,Laptop Gamer Supra 9000,2,2024-05-19,Dhasa Import
+8,Monitor FullHD 24",1,2024-05-19,UPN Import
+9,Teclado Mecanico Ryzor R233,1,2024-05-19,DHM Import
+10,Laptop Gamer Supra 9000,12,2024-08-04,Dhasa Import
+11,Teclado Mecanico Ryzor R233,20,2024-08-04,ZXY Import

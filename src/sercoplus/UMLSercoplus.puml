@@ -1,0 +1,99 @@
+@startuml
+
+' Por Oscar Israel Román Quispe
+' N00350433
+' Curso Técnicas de Programación Orientada a Objetos
+
+class Usuario {
+    - id: int
+    - nombre: string
+    - contrasena: string
+    + autenticaUsuario()
+}
+
+abstract class Movimiento {
+    # id: int
+    # producto: String
+    # cantidad: int
+    # fecha: date
+    + listarMovimientos()
+}
+
+class IngresoProducto {
+    - tipoMovimiento: String = "Ingreso"
+    - proveedorProducto: String
+    + IngresoProducto()
+    + ingresarProducto()
+    + editarIngreso()
+    - generarIdUnicoIngreso()
+    + listarMovimientos()
+    - guardarNuevoIngresoEnArchivo ()
+    - cargarIngresosDesdeArchivo()
+    - sobrescribirArchivoConIngresos ()
+}
+
+class SalidaProducto {
+    - tipoMovimiento: String = "Salida"
+    - sedeDestino: String
+    + SalidaProducto()
+    + retirarProducto()
+    + editarRetiro()
+    + listarMovimientos ()
+    - generarIdUnicoSalida()
+    - guardarNuevaSalidaEnArchivo()
+    + cargarSalidasDesdeArchivo()
+    - sobrescribirArchivoConSalidas()
+}
+
+class Proveedor {
+    - id: int
+    - ruc: string
+    - razonSocial: string
+    - telefono: string
+    - direccion: string
+    - email: string
+    + proveedor()
+    + listarProveedores()
+    + cargarProveedoresDesdeArchivo()
+    + ingresarNuevoProveedor()
+    - generarIdUnicoProveedor()
+    - guardarProveedorEnArchivo()
+    + editarProveedor()
+    - sobrescribirArchivoConProveedores ()
+}
+
+class Producto {
+    - id: int
+    - codigo: string
+    - nombre: string
+    - marca: string
+    - precio: float
+    + agregarTipoProducto()
+    + editarTipoProducto()
+    + listarTiposProductos()
+    - generarIdUnicoProducto()
+    - guardarNuevoProductoEnArchivo()
+    + cargarProductosDesdeArchivo()
+    - sobrescribirArchivoConProductos ()
+    + calcularStockActual()
+    + verListaInventario()
+}
+
+
+' Usuario Movimiento 
+Usuario "1" -- "0..n" Movimiento : realiza >
+Usuario -- Movimiento: es realizado <
+
+' Tipos de movimiento
+Movimiento <|-- IngresoProducto
+Movimiento <|-- SalidaProducto
+IngresoProducto "1" -- "0..n" Producto : afecta >
+IngresoProducto -- Producto : tiene <
+SalidaProducto "1" -- "0..n" Producto : afecta >
+SalidaProducto -- Producto : tiene <
+
+' Productos
+Proveedor "1" -- "0..n" Producto : suministra >
+Proveedor -- Producto : suministrado por <
+
+@enduml
