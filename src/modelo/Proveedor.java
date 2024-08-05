@@ -3,6 +3,7 @@
 package modelo;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -104,7 +105,19 @@ public class Proveedor {
     public static List<Proveedor> cargarProveedoresDesdeArchivo() {
         List<Proveedor> proveedores = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("proveedores.txt"))) {
+        // Ruta del archivo
+        String carpeta = "data/";
+        String nombreArchivo = "proveedores.txt";
+        String rutaCompleta = carpeta + nombreArchivo;
+        
+        // Verificar si existe el archivo
+        File archivo = new File(rutaCompleta);
+        if (!archivo.exists()) {
+            System.out.println("El archivo de ingresos no existe.");
+            return proveedores; // Retorna una lista vacía si el archivo no existe
+        }
+        
+        try (BufferedReader reader = new BufferedReader(new FileReader(rutaCompleta))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
                 String[] datos = linea.split(",");
@@ -166,7 +179,18 @@ public class Proveedor {
 	}
 
     private static void guardarProveedorEnArchivo(Proveedor proveedor) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("proveedores.txt", true))) {
+        // Carpeta para guardar el archivo
+        String carpeta = "data/";
+        String nombreArchivo = "proveedores.txt";
+        String rutaCompleta = carpeta + nombreArchivo;
+        
+        // Verificamos si existe la carpeta
+        File directorio = new File(rutaCompleta);
+        if (!directorio.exists()) {
+            directorio.mkdirs();
+        }
+        
+        try (PrintWriter writer = new PrintWriter(new FileWriter(rutaCompleta, true))) {
             writer.println(proveedor.getId() + "," + proveedor.getRuc() + "," + proveedor.getRazonSocial() + ","
                     + proveedor.getTelefono() + "," + proveedor.getDireccion() + "," + proveedor.getEmail());
         } catch (IOException e) {
@@ -239,14 +263,25 @@ public class Proveedor {
     }
     
     private static void guardarProveedoresEnArchivo(List<Proveedor> proveedores) {
-    try (PrintWriter writer = new PrintWriter(new FileWriter("proveedores.txt"))) {
-        for (Proveedor proveedor : proveedores) {
-            writer.println(proveedor.getId() + "," + proveedor.getRuc() + "," + proveedor.getRazonSocial() + ","
-                    + proveedor.getTelefono() + "," + proveedor.getDireccion() + "," + proveedor.getEmail());
+        // Carpeta para guardar el archivo
+        String carpeta = "data/";
+        String nombreArchivo = "proveedores.txt";
+        String rutaCompleta = carpeta + nombreArchivo;
+        
+        // Verificamos si existe la carpeta
+        File directorio = new File(rutaCompleta);
+        if (!directorio.exists()) {
+            directorio.mkdirs();
         }
-    } catch (IOException e) {
-        System.out.println("Error al guardar los proveedores en el archivo.");
-        e.printStackTrace();
-    }
+        
+        try (PrintWriter writer = new PrintWriter(new FileWriter(rutaCompleta))) {
+            for (Proveedor proveedor : proveedores) {
+                writer.println(proveedor.getId() + "," + proveedor.getRuc() + "," + proveedor.getRazonSocial() + ","
+                        + proveedor.getTelefono() + "," + proveedor.getDireccion() + "," + proveedor.getEmail());
+            }
+        } catch (IOException e) {
+            System.out.println("Error al guardar los proveedores en el archivo.");
+            e.printStackTrace();
+        }
 }
 }

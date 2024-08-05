@@ -3,6 +3,7 @@
 package modelo;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -188,7 +189,19 @@ public class Producto {
     }
     
     private static void guardarNuevoProductoEnArchivo(Producto producto) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("productos.txt", true))) {
+        // Carpeta para guardar el archivo
+        String carpeta = "data/";
+        String nombreArchivo = "productos.txt";
+        String rutaCompleta = carpeta + nombreArchivo;
+        
+        // Verificamos si existe la carpeta
+        File directorio = new File(carpeta);
+        if (!directorio.exists()) {
+            directorio.mkdirs();
+        }
+        
+        // Guardar archivo        
+        try (PrintWriter writer = new PrintWriter(new FileWriter(rutaCompleta, true))) {
             writer.println(producto.getId() + "," + producto.getCodigo() + "," + producto.getNombre() + ","
                     + producto.getMarca() + "," + producto.getPrecio());
         } catch (IOException e) {
@@ -200,7 +213,20 @@ public class Producto {
     public static List<Producto> cargarProductosDesdeArchivo() {
         List<Producto> productos = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("productos.txt"))) {
+        // Ruta del archivo
+        String carpeta = "data/";
+        String nombreArchivo = "productos.txt";
+        String rutaCompleta = carpeta + nombreArchivo;
+        
+        // Verificar si existe el archivo
+        File archivo = new File(rutaCompleta);
+        if (!archivo.exists()) {
+            System.out.println("El archivo de ingresos no existe.");
+            return productos; // Retorna una lista vacía si el archivo no existe
+        }
+        
+        // Operación de lectura
+        try (BufferedReader reader = new BufferedReader(new FileReader(rutaCompleta))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
                 String[] datos = linea.split(",");
@@ -222,7 +248,19 @@ public class Producto {
     }
     
     private static void sobrescribirArchivoConProductos(List<Producto> productos) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("productos.txt"))) {
+        // Carpeta para guardar el archivo
+        String carpeta = "data/";
+        String nombreArchivo = "productos.txt";
+        String rutaCompleta = carpeta + nombreArchivo;
+        
+        // Verificamos si existe la carpeta
+        File directorio = new File(carpeta);
+        if (!directorio.exists()) {
+            directorio.mkdirs();
+        }
+        
+        
+        try (PrintWriter writer = new PrintWriter(new FileWriter(rutaCompleta))) {
             for (Producto producto : productos) {
                 writer.println(producto.getId() + "," + producto.getCodigo() + "," + producto.getNombre() + ","
                         + producto.getMarca() + "," + producto.getPrecio());

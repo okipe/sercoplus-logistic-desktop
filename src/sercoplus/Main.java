@@ -7,6 +7,7 @@ import modelo.SalidaProducto;
 import modelo.Proveedor;
 import modelo.Usuario;
 import modelo.Producto;
+import cli.screen;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 /**
@@ -23,7 +24,7 @@ public class Main {
         System.out.println("Usuario: admin, Contraseña: password");
         System.out.println("=====================================================\n");
         System.out.println("Bienvenido al sistema de inventarios de almacén de Sercoplus \n");
-
+        
         // Contraseña de usuario
         Usuario usuario = new Usuario(1, "admin",   "password");
 
@@ -41,6 +42,7 @@ public class Main {
                 accesoValido = true;
                 System.out.println("Acceso válido. ¡Bienvenido, " + usuario.getNombre() + "!");
                 // System.out.println("ADVERTENCIA: Solo funcionan las opciones del 7 al 13");
+                cli.screen.clearscreen();
                 mostrarMenu(scanner);
             } else {
                 intentos++;
@@ -60,12 +62,12 @@ public class Main {
 
         do {
             System.out.println("\nGestión de productos");
-            System.out.println("1. Ingresar producto");
-            System.out.println("2. Salida de producto");
-            System.out.println("3. Ver lista de inventario de productos");
+            System.out.println("1. Ver lista de inventario de productos");
+            System.out.println("2. Ingresar producto");
+            System.out.println("3. Salida de producto");
             System.out.println("\nGestión de proveedores");
-            System.out.println("4. Ingresar nuevo proveedor");
-            System.out.println("5. Ver lista de proveedor");
+            System.out.println("4. Ver lista de proveedor");
+            System.out.println("5. Ingresar nuevo proveedor");
             System.out.println("6. Editar proveedor");
             System.out.println("\nGestión de tipos de producto");
             System.out.println("7. Ver lista de tipos de producto");
@@ -79,39 +81,49 @@ public class Main {
 
             switch (opcion) {
                 case 1:
-                    System.out.println("\n=== Ingreso de producto ===");
-                    IngresoProducto.ingresarProducto(scanner);
-                    break;
-                case 2:
-                    System.out.println("\n=== Retiro de producto ===");
-                    SalidaProducto.retirarProducto(scanner);
-                    break;
-                case 3:
                     System.out.println("\n=== Ver lista de productos ===");
+                    cli.screen.clearscreen();
                     Producto.verListaInventario();
                     break;
+                case 2:
+                    System.out.println("\n=== Ingreso de producto ===");
+                    cli.screen.clearscreen();
+                    IngresoProducto.ingresarProducto(scanner);
+                    break;
+                case 3:
+                    System.out.println("\n=== Retiro de producto ===");
+                    cli.screen.clearscreen();
+                    SalidaProducto.retirarProducto(scanner);
+                    break;
+                                
                 case 4:
-                    System.out.println("\n=== Ingreso de nuevo proveedor ===");
-                    Proveedor.ingresarNuevoProveedor(scanner);
+                    System.out.println("\n=== Ver lista de proveedores ===");
+                    cli.screen.clearscreen();
+                    Proveedor.listarProveedores();
                     break;
                 case 5:
-                    System.out.println("\n=== Ver lista de proveedores ===");
-                    Proveedor.listarProveedores();
+                    System.out.println("\n=== Ingreso de nuevo proveedor ===");
+                    cli.screen.clearscreen();
+                    Proveedor.ingresarNuevoProveedor(scanner);
                     break;
                 case 6:
                     System.out.println("\n=== Edición de proveedor ===");
+                    cli.screen.clearscreen();
                     Proveedor.editarProveedor(scanner);
                     break;
                 case 7:
                     System.out.println("\n=== Ver lista de proveedores ===");
+                    cli.screen.clearscreen();
                     Producto.listarTiposProductos();
                     break;
                 case 8:
                     System.out.println("\n=== Agregando nuevo tipo de producto ===");
+                    cli.screen.clearscreen();
                     Producto.agregarTipoProducto(scanner);
                     break;
                 case 9:
                     System.out.println("\n=== Edición de tipo de producto ===");
+                    cli.screen.clearscreen();
                     Producto.editarTipoProducto(scanner);
                     break;
                 // Más opciones

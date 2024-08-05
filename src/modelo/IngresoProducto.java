@@ -1,6 +1,7 @@
 package modelo;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,7 +18,7 @@ public class IngresoProducto extends Movimiento {
    private String tipoMovimiento = "Ingreso";
    private String proveedorProducto;
    
-   public IngresoProducto(int id, String producto, int cantidad, Date fecha, String proveedorProducto) {
+    public IngresoProducto(int id, String producto, int cantidad, Date fecha, String proveedorProducto) {
         super(id, producto, cantidad, fecha);
         this.proveedorProducto = proveedorProducto;
     }
@@ -149,7 +150,20 @@ public class IngresoProducto extends Movimiento {
     }
     
     private static void guardarNuevoIngresoEnArchivo(IngresoProducto ingreso) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("ingresos.txt", true))) {
+        
+        // Carpeta para guardar el archivo
+        String carpeta = "data/";
+        String nombreArchivo = "ingresos.txt";
+        String rutaCompleta = carpeta + nombreArchivo;
+        
+        // Verificamos si existe la carpeta
+        File directorio = new File(carpeta);
+        if (!directorio.exists()) {
+            directorio.mkdirs();
+        }
+        
+        // Operación de escritura        
+        try (PrintWriter writer = new PrintWriter(new FileWriter(rutaCompleta, true))) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String fechaFormateada = dateFormat.format(ingreso.getFecha());
             writer.println(ingreso.getId() + "," + ingreso.getProducto() + "," + ingreso.getCantidad() + ","
@@ -162,8 +176,21 @@ public class IngresoProducto extends Movimiento {
     
     public static List<IngresoProducto> cargarIngresosDesdeArchivo() {
         List<IngresoProducto> ingresos = new ArrayList<>();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader("ingresos.txt"))) {
+        
+        // Ruta del archivo
+        String carpeta = "data/";
+        String nombreArchivo = "ingresos.txt";
+        String rutaCompleta = carpeta + nombreArchivo;
+        
+        // Verificar si existe el archivo
+        File archivo = new File(rutaCompleta);
+        if (!archivo.exists()) {
+            System.out.println("El archivo de ingresos no existe.");
+            return ingresos; // Retorna una lista vacía si el archivo no existe
+        }
+        
+        //Operación de lectura
+        try (BufferedReader reader = new BufferedReader(new FileReader(rutaCompleta))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
                 String[] datos = linea.split(",");
@@ -173,7 +200,6 @@ public class IngresoProducto extends Movimiento {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date fecha = dateFormat.parse(datos[3]);
                 String proveedor = datos[4];
-
                 IngresoProducto ingreso = new IngresoProducto(id, producto, cantidad, fecha, proveedor);
                 ingresos.add(ingreso);
             }
@@ -186,10 +212,24 @@ public class IngresoProducto extends Movimiento {
     }
 
     private static void sobrescribirArchivoConIngresos(List<IngresoProducto> ingresos) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("ingresos.txt"))) {
+        // Carpeta para guardar el archivo
+        String carpeta = "data/";
+        String nombreArchivo = "ingresos.txt";
+        String rutaCompleta = carpeta + nombreArchivo;
+        
+        // Verificamos si existe la carpeta
+        File directorio = new File(carpeta);
+        if (!directorio.exists()) {
+            directorio.mkdirs();
+        }
+        
+        // Sobreescritura
+        try (PrintWriter writer = new PrintWriter(new FileWriter(rutaCompleta))) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             for (IngresoProducto ingreso : ingresos) {
+                String fechaFormateada = dateFormat.format(ingreso.getFecha());
                 writer.println(ingreso.getId() + "," + ingreso.getProducto() + "," + ingreso.getCantidad() + ","
-                        + ingreso.getFecha() + "," + ingreso.getProveedorProducto());
+                    + fechaFormateada + "," + ingreso.getProveedorProducto());
             }
         } catch (IOException e) {
             System.out.println("Error al guardar los ingresos en el archivo.");

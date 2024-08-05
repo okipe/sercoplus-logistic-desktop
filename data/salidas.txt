@@ -1,3 +1,4 @@
 1,Laptop Gamer Supra 9000,2,2024-05-08,Lima Centro
 2,Laptop Gamer Supra 9000,1,2024-05-08,Lima Sur
 3,Teclado Mecanico Ryzor R233,12,2024-05-19,Lima
+4,Teclado Mecanico Ryzor R233,1,2024-08-04,Lima

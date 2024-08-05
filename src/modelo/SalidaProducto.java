@@ -2,6 +2,7 @@ package modelo;
 
 import modelo.Movimiento;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -194,7 +195,18 @@ public class SalidaProducto extends Movimiento {
     }
     
     private static void guardarNuevaSalidaEnArchivo(SalidaProducto salida) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("salidas.txt", true))) {
+        // Carpeta para guardar el archivo
+        String carpeta = "data/";
+        String nombreArchivo = "salidas.txt";
+        String rutaCompleta = carpeta + nombreArchivo;
+        
+        // Verificamos si existe la carpeta
+        File directorio = new File(carpeta);
+        if (!directorio.exists()) {
+            directorio.mkdirs();
+        }
+        
+        try (PrintWriter writer = new PrintWriter(new FileWriter(rutaCompleta, true))) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String fechaFormateada = dateFormat.format(salida.getFecha());
             writer.println(salida.getId() + "," + salida.getProducto() + "," + salida.getCantidad() + ","
@@ -207,8 +219,20 @@ public class SalidaProducto extends Movimiento {
 
     public static List<SalidaProducto> cargarSalidasDesdeArchivo() {
         List<SalidaProducto> salidas = new ArrayList<>();
+        
+        // Ruta del archivo
+        String carpeta = "data/";
+        String nombreArchivo = "salidas.txt";
+        String rutaCompleta = carpeta + nombreArchivo;
+        
+        // Verificar si existe el archivo
+        File archivo = new File(rutaCompleta);
+        if (!archivo.exists()) {
+            System.out.println("El archivo de ingresos no existe.");
+            return salidas; // Retorna una lista vacía si el archivo no existe
+        }
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("salidas.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(rutaCompleta))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
                 String[] datos = linea.split(",");
@@ -218,7 +242,6 @@ public class SalidaProducto extends Movimiento {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date fecha = dateFormat.parse(datos[3]);
                 String sedeDestino = datos[4];
-
                 SalidaProducto salida = new SalidaProducto(id, producto, cantidad, fecha, sedeDestino);
                 salidas.add(salida);
             }
@@ -231,7 +254,19 @@ public class SalidaProducto extends Movimiento {
     }
     
     private static void sobrescribirArchivoConSalidas(List<SalidaProducto> salidas) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("salidas.txt"))) {
+        // Carpeta para guardar el archivo
+        String carpeta = "data/";
+        String nombreArchivo = "salidas.txt";
+        String rutaCompleta = carpeta + nombreArchivo;
+        
+        // Verificamos si existe la carpeta
+        File directorio = new File(carpeta);
+        if (!directorio.exists()) {
+            directorio.mkdirs();
+        }
+        
+        // Sobreescribir
+        try (PrintWriter writer = new PrintWriter(new FileWriter(rutaCompleta))) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             for (SalidaProducto salida : salidas) {
                 String fechaFormateada = dateFormat.format(salida.getFecha());

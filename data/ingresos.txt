@@ -9,3 +9,5 @@
 9,Teclado Mecanico Ryzor R233,1,2024-05-19,DHM Import
 10,Laptop Gamer Supra 9000,12,2024-08-04,Dhasa Import
 11,Teclado Mecanico Ryzor R233,20,2024-08-04,ZXY Import
+12,Laptop Gamer Supra 9000,10,2024-08-04,Dhasa Import
+13,Teclado Mecanico Ryzor R233,2,2024-08-04,DHM Import
